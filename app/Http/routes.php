@@ -12,9 +12,21 @@
 */
 
 Route::get('/', function () {
+
     return view('welcome');
 });
 
-Route::auth();
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+|
+| This is where all of the secured routes shall be placed.
+|
+*/
 
-Route::get('/home', 'HomeController@index');
+Route::group(['middleware' => 'web'], function () {
+
+    Route::auth();
+    Route::get('/home', 'HomeController@index');
+});

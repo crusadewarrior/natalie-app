@@ -11,7 +11,7 @@ class Role extends Model {
      *
      * @var string
      */
-    protected $table ='roles';
+    protected $table = 'roles';
 
     /**
      * One to Many relation
@@ -19,7 +19,8 @@ class Role extends Model {
      * @return Illuminate\Database\Eloquent\Relations\hasMany
      */
 
-    public function users() {
+    public function users()
+    {
         return $this->hasMany('App\Models\User');
     }
 

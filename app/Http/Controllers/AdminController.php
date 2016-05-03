@@ -5,152 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Repositories\UserRepository;
 
 class AdminController extends Controller {
 
     /**
-     * The UserRepository instance.
+     * Create a new controller instance.
      *
-     * @var App\Repositories\UserRepository
-     */
-    protected $user_gestion;
-
-    /**
-     * Create a new AdminController instance.
-     *
-     * @param  App\Repositories\UserRepository $user_gestion
      * @return void
      */
-
-    public function __construct(UserRepository $user_gestion) {
-        $this->user_gestion = $user_gestion;
+    public function __construct() {
+        $this->middleware('auth');
     }
 
     /**
-     * Display a listing of the resource.
+     * Show the admin dashboard.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function admin()
     {
-        return $this->indexSort('total');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  string  $role
-     * @return Response
-     */
-    public function indexSort($role)
-    {
-        $counts = $this->user_gestion->counts();
-        $users = $this->user_gestion->index(4, $role);
-        $links = $users->render();
-        $roles = $this->role_gestion->all();
-
-        return view('back.users.index', compact('users', 'links', 'counts', 'roles'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return view('back.users.create', $this->role_gestion->getAllSelect());
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  App\requests\UserCreateRequest $request
-     *
-     * @return Response
-     */
-    public function store(
-        UserCreateRequest $request)
-    {
-        $this->user_gestion->store($request->all());
-
-        return redirect('user')->with('ok', trans('back/users.created'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  App\Models\User
-     * @return Response
-     */
-    public function show(User $user)
-    {
-        return view('back.users.show',  compact('user'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  App\Models\User
-     * @return Response
-     */
-    public function edit(User $user)
-    {
-        return view('back.users.edit', array_merge(compact('user'), $this->role_gestion->getAllSelect()));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  App\requests\UserUpdateRequest $request
-     * @param  App\Models\User
-     * @return Response
-     */
-    public function update(
-        UserUpdateRequest $request,
-        User $user)
-    {
-        $this->user_gestion->update($request->all(), $user);
-
-        return redirect('user')->with('ok', trans('back/users.updated'));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  App\Models\user $user
-     * @return Response
-     */
-    public function destroy(User $user)
-    {
-        $this->user_gestion->destroyUser($user);
-
-        return redirect('user')->with('ok', trans('back/users.destroyed'));
-    }
-
-    /**
-     * Display the roles form
-     *
-     * @return Response
-     */
-    public function getRoles()
-    {
-        $roles = $this->role_gestion->all();
-
-        return view('back.users.roles', compact('roles'));
-    }
-
-    /**
-     * Update roles
-     *
-     * @param  App\requests\RoleRequest $request
-     * @return Response
-     */
-    public function postRoles(RoleRequest $request)
-    {
-        $this->role_gestion->update($request->except('_token'));
-
-        return redirect('user/roles')->with('ok', trans('back/roles.ok'));
+        return view('admin');
     }
 }

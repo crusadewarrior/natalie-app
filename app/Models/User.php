@@ -5,8 +5,8 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
+
     /**
      * The attributes that are mass assignable.
      *
@@ -30,7 +30,9 @@ class User extends Authenticatable
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function role() {
+    public function role()
+    {
         return $this->belongsTo('App\Models\Role');
     }
+
 }

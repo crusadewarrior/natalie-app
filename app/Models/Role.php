@@ -18,7 +18,6 @@ class Role extends Model {
      *
      * @return Illuminate\Database\Eloquent\Relations\hasMany
      */
-
     public function users()
     {
         return $this->hasMany('App\Models\User');
